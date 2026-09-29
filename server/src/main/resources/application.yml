@@ -1,0 +1,44 @@
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: social-dashboard-server
+
+  profiles:
+    default: dev
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+app:
+  jwt:
+    # Override in production via the JWT_SECRET environment variable.
+    secret: ${JWT_SECRET:dev-only-secret-key-change-me-in-production-0123456789}
+    expiration-ms: ${JWT_EXPIRATION_MS:604800000}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+  seed:
+    enabled: ${SEED_ENABLED:true}
+
+logging:
+  level:
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
